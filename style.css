@@ -229,13 +229,13 @@ header .container {
 }
 .hero-title{
   width: 100%;
-  margin-bottom: 20px;
+  /* margin-bottom: -20px; */
 }
 .hero-text {
   color: var(--white);
   font-size: var(--fs-4);
-  line-height: 1.8;
-  margin-bottom: 20px;
+  /* line-height: 1.8; */
+  /* margin-bottom: 0px; */
 }
 .hero .btn-primary { 
   margin-bottom: 25px; 
@@ -265,22 +265,20 @@ header .container {
   background-position: 0 97%;
   border-radius: 4px;
   transition: background var(--transition);
+  margin-bottom: 15px; 
 }
 .hero .btn-link:is(:hover, :focus) { 
   background-size: 100% 2px; 
 }
-.hero .btn-link { 
-  margin-bottom: 15px; 
-}
-.hero-banner {
-  /* display: block;
+/* .hero-banner {
+   display: block;
   width: 100%;
   padding-top: 100%;
-  background: url("../images/hero-banner.png") no-repeat;
+   background: url("../images/hero-banner.png") no-repeat; 
   background-size: cover;
-  border-radius: 100px; */
+  border-radius: 100px;
   display: none;
-}
+} */
 
 
   /* PODCAST */
@@ -847,7 +845,7 @@ input {
 
   .hero-title {
     width: 100%;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
   }
 
   .hero-text { margin-bottom: 25px; }
@@ -865,7 +863,7 @@ input {
     padding-top: 100%;
     background: url("assets/images/bannerung.jpg") no-repeat;
     background-size: cover;
-    border-radius: 100px;
+    border-radius: 60px;
   }
 
 
