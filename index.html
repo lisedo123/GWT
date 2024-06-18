@@ -260,10 +260,8 @@
 
       <section class="newsletter">
         <div class="newsletter-card">
-
           <div class="card-content">
             <h3 class="h3 card-title">Get the Scoop! Our Newsletter's on the House</h3>
-
             <p class="card-text">
               Take advantage of an exclusive opportunity! Stay informed, inspired, and connected with our community.
               Join today to unlock a world of valuable content tailored just for you!
@@ -271,10 +269,11 @@
           </div>
 
           <form action="" class="card-form" data-form>
-            <input type="text" id="contactinfo" name="email_address" placeholder="Email Address or Phone Number" required class="input-field" data-input>
-
-            <button type="submit" id="contactinfobtn" class="btn btn-primary" disabled data-submit>Subscribe</button>
+            <input type="text" id="contactinfo" name="contact_info" placeholder="Email Address or Phone Number" required class="input-field" data-input>
+            <button type="submit" id="contactinfobtn" class="btn btn-primary" data-submit>Subscribe</button>
           </form>
+          
+          
         </div>
       </section>
     </article>
@@ -365,38 +364,59 @@
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  // Firebase configuration
   const firebaseConfig = {
-  apiKey: "AIzaSyB-4F8K8dIOTx3IFp0bJLXjbCe_w5nG83o",
-  authDomain: "contactinfo-776f9.firebaseapp.com",
-  projectId: "contactinfo-776f9",
-  storageBucket: "contactinfo-776f9.appspot.com",
-  messagingSenderId: "86469330406",
-  appId: "1:86469330406:web:7f0d466b9e01c7e5aec227"
-};
+    apiKey: "AIzaSyB-4F8K8dIOTx3IFp0bJLXjbCe_w5nG83o",
+    authDomain: "contactinfo-776f9.firebaseapp.com",
+    projectId: "contactinfo-776f9",
+    storageBucket: "contactinfo-776f9.appspot.com",
+    messagingSenderId: "86469330406",
+    appId: "1:86469330406:web:7f0d466b9e01c7e5aec227"
+  };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 
-  // get ref to database services
+  // Get a reference to the database service
   const db = getDatabase(app);
 
+  // Add event listener to the subscribe button
+  document.getElementById("contactinfobtn").addEventListener('click', function(e) {
+    e.preventDefault();
 
-  document.getElementById("contactinfobtn").addEventListener('click', function(e){
-      e.preventDefault();
-      set(ref(db, 'contactinfo/' + document.getElementById("contactinfo").value),
-      {
-        ContactInfo: document.getElementById("contactinfo").value,
-        Email: document.getElementById("contactinfo").value
-      });
+    const contactInfo = document.getElementById("contactinfo").value;
+
+    if (isValidEmail(contactInfo) || isValidPhone(contactInfo)) {
+      const formattedInfo = contactInfo.replace(/[@.]/g, '_');
+      const contactInfoRef = ref(db, 'contactinfo/' + formattedInfo);
+
+      set(contactInfoRef, {
+        ContactInfo: contactInfo,
+        Type: isValidEmail(contactInfo) ? 'Email' : 'Phone'
+      }).then(() => {
         alert("Thank You For Subscribing");
+      }).catch((error) => {
+        console.error("Error writing to the database", error);
       });
-      function isValidEmail(email) {
-    // Regular expression for email validation
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    } else {
+      alert("Please enter a valid email address or phone number");
+    }
+  });
+
+  // Function to validate email addresses
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
+  }
+
+  // Function to validate phone numbers (simple validation)
+  function isValidPhone(phone) {
+    const phoneRegex = /^[0-9]{10}$/; // Adjust regex based on your phone number format
+    return phoneRegex.test(phone);
+  }
 </script>
+
+
 </html>
